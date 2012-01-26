@@ -1,0 +1,9 @@
+TCPDelay is a simple TCP tunnel, written in java with no other dependencies, that can add a specified delay to each packet.
+
+It can be used to test the behavior of dependencies, such as services in a SOA world, with regards to delays or timeouts, as well as severed connections and retry logic, without having to modify the dependency.
+
+Simply start TCPDelay, configured to point to the destination and with the appropriate delay, and the source application configured to point to TCPDelay. To test a severed connection simply kill TCPDelay and to test retry logic simply restart TCPDelay.
+
+To run TCPDelay:
+
+java org.tcpdelay.Launcher [-help] [-logLevel {DEBUG|INFO|ERROR}] [-delayMs <ms delay>] -localPort <port> -remoteHost <hostname> -remotePort <port>
