@@ -90,7 +90,7 @@ public class TCPDataReader implements Runnable {
                     if (dataSelector.select() == 0) {
                         continue;
                     }
-                    long selectTime = System.currentTimeMillis();
+                    long selectTimeNanos = System.nanoTime();
                     keys = dataSelector.selectedKeys();
                     for (SelectionKey key : keys) {
                         if (key.isValid()
@@ -102,7 +102,7 @@ public class TCPDataReader implements Runnable {
                         if (key.isValid()
                                 && (key.readyOps() & SelectionKey.OP_READ) == SelectionKey.OP_READ) {
                             SocketChannel sc = (SocketChannel) key.channel();
-                            handleRead(key, sc, selectTime);
+                            handleRead(key, sc, selectTimeNanos);
                         }
                     }
                 } catch (IOException e) {
@@ -122,7 +122,7 @@ public class TCPDataReader implements Runnable {
     /**
      * Handles read requests from an open socket. Puts it in the queue for the writer to pick up after the delay.
      */
-    private void handleRead(SelectionKey key, SocketChannel sc, long selectTime) {
+    private void handleRead(SelectionKey key, SocketChannel sc, long selectTimeNanos) {
         boolean close = false;
         ByteBuffer buffer = ByteBuffer.allocate(16384);
         int len = 0;
@@ -145,7 +145,7 @@ public class TCPDataReader implements Runnable {
             }
             long delayedUntil = 0;
             if (delayMs > 0) {
-                delayedUntil = selectTime + delayMs;
+                delayedUntil = selectTimeNanos + delayMs * 1000000;
             }
             try {
                 queue.add(new TCPData(buffer, len, pairSc, delayedUntil));

@@ -51,7 +51,7 @@ public class TCPData implements Delayed {
     }
 
     public long getDelay(TimeUnit unit) {
-        return unit.convert(delayedUntil - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+        return unit.convert(delayedUntil - System.nanoTime(), TimeUnit.NANOSECONDS);
     }
 
     public int compareTo(Delayed o) {
@@ -60,7 +60,8 @@ public class TCPData implements Delayed {
             return -1;
         } else if (delayedUntil > data.delayedUntil) {
             return 1;
-        } else
-        return 0;
+        } else {
+            return 0;
+        }
     }
 }
