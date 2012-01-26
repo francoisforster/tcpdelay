@@ -56,6 +56,11 @@ public class TCPData implements Delayed {
 
     public int compareTo(Delayed o) {
         TCPData data = (TCPData) o;
-        return (delayedUntil == data.delayedUntil && channel.equals(data.channel) && len == data.len) ? 0 : 1;
+        if (delayedUntil < data.delayedUntil) {
+            return -1;
+        } else if (delayedUntil > data.delayedUntil) {
+            return 1;
+        } else
+        return 0;
     }
 }
