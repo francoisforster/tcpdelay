@@ -31,7 +31,6 @@ public class TCPDataWriter implements Runnable {
     private static Logger LOGGER = Logger.getLogger(TCPDataWriter.class.getName());
 
     private BlockingQueue<TCPData> queue;
-    private final Utils _Utils = new Utils();
 
     public TCPDataWriter(BlockingQueue<TCPData> queue) {
         this.queue = queue;

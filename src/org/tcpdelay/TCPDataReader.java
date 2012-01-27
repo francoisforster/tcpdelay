@@ -143,12 +143,12 @@ public class TCPDataReader implements Runnable {
                 closeInput(sc);
                 channelPairs.remove(sc);
             }
-            long delayedUntil = 0;
+            long delayedUntilNanos = 0;
             if (delayMs > 0) {
-                delayedUntil = selectTimeNanos + delayMs * 1000000;
+                delayedUntilNanos = selectTimeNanos + delayMs * 1000000;
             }
             try {
-                queue.add(new TCPData(buffer, len, pairSc, delayedUntil));
+                queue.add(new TCPData(buffer, len, pairSc, delayedUntilNanos));
             } catch (Exception e) {
                 LOGGER.warning(e.getMessage());
             }

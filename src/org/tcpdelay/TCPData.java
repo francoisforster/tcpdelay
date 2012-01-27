@@ -29,13 +29,13 @@ public class TCPData implements Delayed {
     private ByteBuffer buffer;
     private int len;
     private SocketChannel channel;
-    private long delayedUntil;
+    private long delayedUntilNanos;
 
-    public TCPData(ByteBuffer buffer, int len, SocketChannel channel, long delayedUntil) {
+    public TCPData(ByteBuffer buffer, int len, SocketChannel channel, long delayedUntilNanos) {
         this.buffer = buffer;
         this.len = len;
         this.channel = channel;
-        this.delayedUntil = delayedUntil;
+        this.delayedUntilNanos = delayedUntilNanos;
     }
 
     public ByteBuffer getBuffer() {
@@ -51,14 +51,14 @@ public class TCPData implements Delayed {
     }
 
     public long getDelay(TimeUnit unit) {
-        return unit.convert(delayedUntil - System.nanoTime(), TimeUnit.NANOSECONDS);
+        return unit.convert(delayedUntilNanos - System.nanoTime(), TimeUnit.NANOSECONDS);
     }
 
     public int compareTo(Delayed o) {
         TCPData data = (TCPData) o;
-        if (delayedUntil < data.delayedUntil) {
+        if (delayedUntilNanos < data.delayedUntilNanos) {
             return -1;
-        } else if (delayedUntil > data.delayedUntil) {
+        } else if (delayedUntilNanos > data.delayedUntilNanos) {
             return 1;
         } else {
             return 0;
