@@ -7,3 +7,5 @@ Simply start TCPDelay, configured to point to the destination and with the appro
 To run TCPDelay:
 
 java org.tcpdelay.Launcher [-help] [-logLevel {DEBUG|INFO|ERROR}] [-delayMs <ms delay>] -localPort <port> -remoteHost <hostname> -remotePort <port>
+
+Note: the delay applies to both outgoing and incoming communication, so a roundtrip will be slower by twice the delay.
