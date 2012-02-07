@@ -56,8 +56,7 @@ public abstract class Launcher {
                 displayErrorMessageExit("Invalid log level: " + getArgData(args, LOG_LEVEL_ARG));
             }
         }
-        Logger.getLogger(Launcher.class.getName()).setLevel(logLevel);
-        getConsoleHandler().setLevel(logLevel);
+        setLogLevel(logLevel);
 
         int localPort = 0;
         try {
@@ -117,8 +116,9 @@ public abstract class Launcher {
         return null;
     }
 
-    private static Handler getConsoleHandler() {
-        Logger topLogger = java.util.logging.Logger.getLogger("");
+    private static void setLogLevel(Level level) {
+        Logger topLogger = Logger.getLogger("");
+        topLogger.setLevel(level);
         Handler consoleHandler = null;
         for (Handler handler : topLogger.getHandlers()) {
             if (handler instanceof ConsoleHandler) {
@@ -130,7 +130,7 @@ public abstract class Launcher {
             consoleHandler = new ConsoleHandler();
             topLogger.addHandler(consoleHandler);
         }
-        return consoleHandler;
+        consoleHandler.setLevel(level);
     }
 
 }

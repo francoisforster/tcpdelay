@@ -130,6 +130,7 @@ public class TCPDataReader implements Runnable {
         try {
             len = sc.read(buffer);
             Utils.logVarArgs(LOGGER, Level.FINE, "Read {0} bytes from {1}", len, pairSc);
+            LOGGER.log(Level.FINE,  new String(buffer.array()));
             if (len < 0 || pairSc == null) {
                 close = true;
             }
